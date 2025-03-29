@@ -39,13 +39,13 @@ function uploadFiles() {
     var userName = document.getElementById("name").value;
     var userID = document.getElementById("userID").value;
     var userEmail = document.getElementById("email").value;
-    var pasthistory = '[' + Array.from(selectedPastConditions).map(item => `"${item}"`).join(',') + ']';
-    var familyhistory = '[' + Array.from(selectedConditions).map(item => `"${item}"`).join(',') + ']';
-    var family_history_heart = document.getElementById("family_history_heart").value;
-    var family_history_heart_input = document.getElementById("family_history_heart_input").value;
-    var smoking = document.getElementById("smoking").value;
-    var drinking = document.getElementById("drinking").value;
-    var drug_allergy = document.getElementById("drug_allergy").value;
+    //var pasthistory = '[' + Array.from(selectedPastConditions).map(item => `"${item}"`).join(',') + ']';
+    //var familyhistory = '[' + Array.from(selectedConditions).map(item => `"${item}"`).join(',') + ']';
+    //var family_history_heart = document.getElementById("family_history_heart").value;
+    //var family_history_heart_input = document.getElementById("family_history_heart_input").value;
+    //var smoking = document.getElementById("smoking").value;
+    //var drinking = document.getElementById("drinking").value;
+    //var drug_allergy = document.getElementById("drug_allergy").value;
 
     const fileInput = document.getElementById('fileInput');
     const picturefileInput = document.getElementById('picturefileInput'); // 注意这里的 ID
@@ -56,13 +56,13 @@ function uploadFiles() {
     formData.append('userID', userID);
     formData.append('userName', userName);
     formData.append('userEmail', userEmail);
-    formData.append('pasthistory', pasthistory);
-    formData.append('familyhistory', familyhistory);
-    formData.append('family_history_heart', family_history_heart);
-    formData.append('family_history_heart_input', family_history_heart_input);
-    formData.append('smoking', smoking);
-    formData.append('drinking', drinking);
-    formData.append('drug_allergy', drug_allergy);
+    formData.append('pasthistory', "");
+    formData.append('familyhistory', "");
+    formData.append('family_history_heart', "");
+    formData.append('family_history_heart_input', "");
+    formData.append('smoking', "");
+    formData.append('drinking', "");
+    formData.append('drug_allergy', "");
 
     const files = fileInput.files;
     if (files.length > 0) {
