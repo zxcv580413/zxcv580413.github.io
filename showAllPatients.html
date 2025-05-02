@@ -395,7 +395,7 @@ function PastHistory(patientId) {
     const data = new FormData();
     data.append('userURL', `/Condition?_text=%27%E9%81%8E%E5%8E%BB%E7%97%85%E5%8F%B2%27&patient=${patientId}`);
 
-    const url = 'https://e1dc-140-116-156-231.ngrok-free.app/view'; // Flask 服务器的端点 URL
+    const url = 'https://02f9-140-116-156-231.ngrok-free.app/view'; // Flask 服务器的端点 URL
 
     fetch(url, {
         method: 'POST',
@@ -454,7 +454,7 @@ function Familyhistory(patientId) {
     const data = new FormData();
     data.append('userURL', `/FamilyMemberHistory?patient=${patientId}`);
 
-    const url = 'https://e1dc-140-116-156-231.ngrok-free.app/view'; // Flask 服务器的端点 URL
+    const url = 'https://02f9-140-116-156-231.ngrok-free.app/view'; // Flask 服务器的端点 URL
 
     fetch(url, {
         method: 'POST',
