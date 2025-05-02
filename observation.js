@@ -44,7 +44,7 @@ function uploadFiles() {
     const fileInput = document.getElementById('fileInput');
     const picturefileInput = document.getElementById('picturefileInput'); // 注意这里的 ID
 
-    const api_url = "https://0db7-140-116-156-231.ngrok-free.app/upload";
+    const api_url = "https://02f9-140-116-156-231.ngrok-free.app/upload";
 
     const formData = new FormData();
     formData.append('userID', userID);
