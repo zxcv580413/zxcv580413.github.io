@@ -19,7 +19,7 @@ function uploadFhirData() {
     loadingSpinner.style.display = 'block';
 
     // 發送 POST 請求到 Flask 伺服器
-    fetch("https://0db7-140-116-156-231.ngrok-free.app/patient", {
+    fetch("https://02f9-140-116-156-231.ngrok-free.app/patient", {
         method: 'POST',
         body: formData
     })
