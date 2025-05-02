@@ -8,7 +8,7 @@ function downloadData(userName, userID) {
     loadingSpinner.style.display = 'block';
 	
     // 發送下載請求
-    fetch("https://0db7-140-116-156-231.ngrok-free.app/download", {
+    fetch("https://02f9-140-116-156-231.ngrok-free.app/download", {
         method: 'POST',
         body: requestData
     })
