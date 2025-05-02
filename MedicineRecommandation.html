@@ -133,38 +133,44 @@
 </main>
 
 <script>
-    function showmedicine() {
-        document.getElementById("content").innerHTML = `
-            <h1 style="text-align: center;">電子病歷資訊網站</h1>
-            <h2>藥物推薦</h2>
-            <p id="errorOutput" style="color: red;"></p>
-            <form id="medicineForm">
-                <label for="name">姓名</label>
-                <input type="text" id="name">
-                <br><br>
-                <label for="userID">身分證字號</label>
-                <input type="text" id="userID">
-                <br><br>
-                <label for="cc">醫師輸入</label>
-                <input type="text" id="cc" placeholder="">
-                <br><br>
-                <label for="familyhistory">疾病</label>
-                <select id="familyhistory" name="familyhistory">
-                  <option value="糖尿病">糖尿病</option>				  
-                </select>
-                <br><br>
-                <button type="button" onclick="uploadMedicineData()">送出</button>
-                <br><br>
-                <div id="loadingSpinner" style="display: none; text-align: center;">
-                    <img src="Loading_icon.gif" alt="Loading..." width="50" height="50">
-                    <p>Loading...</p>
-                </div>
-                <div id="responseMessage"></div>
-                <h2>藥物推薦結果</h2>
-                <div id="responseTableContainer"></div>
+		function showmedicine() {
+			document.getElementById("content").innerHTML = `
+				<h1 style="text-align: center;">電子病歷資訊網站</h1>
+				<h2>藥物推薦</h2>
+				<p id="errorOutput" style="color: red;"></p>
+				<form id="medicineForm">
+					<label for="name">姓名</label>
+					<input type="text" id="name">
+					<br><br>
+					<label for="userID">身分證字號</label>
+					<input type="text" id="userID">
+					<br><br>
+					<label for="cc">醫師輸入</label>
+					<input type="text" id="cc" placeholder="">
+					<br><br>
+					<label for="familyhistory">疾病</label>
+					<select id="familyhistory" name="familyhistory">
+					  <option value="糖尿病">糖尿病</option>	
+					  <option value="高血壓">高血壓</option>	
+					  <option value="慢性腎臟病">慢性腎臟病</option>	
+					  <option value="高尿酸血症">高尿酸血症</option>	
+					  <option value="代謝性症候群">代謝性症候群</option>	
+					</select>
+					<br><br>
+					<button type="button" onclick="uploadMedicineData()">送出</button>
+					<br><br>
+					<div id="loadingSpinner" style="display: none; text-align: center;">
+						<img src="Loading_icon.gif" alt="Loading..." width="50" height="50">
+						<p>Loading...</p>
+					</div>
 
-            </form>`;
-    }
+					<h2>用藥與劑量建議</h2>
+					<div id="responseMessage" style="margin-bottom: 20px;"></div>
+
+					<div id="responseTableContainer"></div>
+				</form>
+			`;
+		}
 
 		function uploadMedicineData() {
 			document.getElementById("responseMessage").innerHTML = '';
@@ -182,7 +188,7 @@
 			var loadingSpinner = document.getElementById('loadingSpinner');
 			loadingSpinner.style.display = 'block';
 
-			fetch("https://0db7-140-116-156-231.ngrok-free.app/recommend", {
+			fetch("https://02f9-140-116-156-231.ngrok-free.app/recommend", {
 				method: 'POST',
 				body: formData
 			})
@@ -194,31 +200,18 @@
 			})
 			.then(data => {
 				loadingSpinner.style.display = 'none';
-				console.log('Received data:', data);
-				
-				// 顯示 response 內容在 responseMessage div 中
-				if (data.message && data.message.response) {
-					document.getElementById('responseMessage').innerHTML = data.message.response.replace(/\n/g, '<br>');
-				}
 
-				// 只有在有藥物數據時才更新表格
-				if (data.message.medicine && Object.keys(data.message.medicine).length > 0) {
-					updateTableData(data.message);
+				// 取出 DDR_output 並顯示在網頁上（轉換換行字元）
+				if (data.message.DDR_output) {
+					document.getElementById('responseMessage').innerHTML = 
+						`<div style="border: 2px solid; padding: 10px;">
+						${data.message.DDR_output.replace(/\n/g, '<br>')}
+						</div>`;
 				} else {
-					// 清空表格容器
-					document.getElementById('responseTableContainer').innerHTML = '';
+					document.getElementById('responseMessage').innerHTML = '沒有收到 DDR_output。';
 				}
-
-				// 移除這行
-				// document.getElementById('responseData').textContent = JSON.stringify(data, null, 2);
-			})
-			.catch(error => {
-				console.error('發生 fetch 操作問題:', error);
-				document.getElementById('responseMessage').textContent = '上傳失敗: ' + error.message;
-				loadingSpinner.style.display = 'none';
-			});
-		}
-
+			});}
+<!--
     function updateTableData(data) {
         const tableContainer = document.getElementById('responseTableContainer');
         tableContainer.innerHTML = '';
@@ -281,7 +274,7 @@
 
         tableContainer.appendChild(notRecommendedMedicineTable);
     }
-
+-->
     window.onload = function() {
         showmedicine();
     };
