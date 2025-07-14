@@ -94,12 +94,28 @@
 			color: white; 
 			margin-top: 0;
 		}
+		
+		/* 讓表格依內容自動排版，保留你原本喜歡的各欄寬度 */
+#content table {
+  table-layout: auto;
+  width: 100%;        /* 或你想要的整表寬度 */
+}
+
+/* 只針對第一欄（姓名）設定約束寬度 */
+#content table th:first-child,
+#content table td:first-child {
+  width: 170px;       /* 你要的姓名欄寬度，隨意調整 */
+  max-width: 170px;   /* 雙重保險 */
+
+
+}
 
     </style>
 
     <script src="./patient.js"></script>
     <script src="./observation.js"></script>
     <script src="./download_view.js"></script>
+    <script src="./config.js"></script>
     <title>病患資料</title>
 </head>
 <body>
@@ -108,13 +124,20 @@
         <button onclick="window.location.href = 'showPatientInfo.html'">病患資料建檔</button>
         <button onclick="window.location.href = 'diagnosis_info.html'">上傳病歷檔案</button>
         <button onclick="window.location.href = 'showDownload.html'">下載病歷報告</button>
-    	<button onclick="window.location.href = 'MedicineRecommandation.html'">藥物推薦</button>
+        <!--<button onclick="window.location.href = 'medicine.html'">藥物相關注意事項警示</button>-->
+        <button onclick="window.location.href = 'MedicineRecommandation.html'">藥物推薦</button>
+	<!--<button onclick="window.location.href = 'Nutritional management.html'">營養管理</button>-->
         <button onclick="window.location.href = 'showAllPatients.html'">查看病患資料</button>
     </nav>
 
     <main id="content">
         <!-- 內容將根據點擊的按鈕而變化 -->
-        <h1>電子病歷資訊網站</h1>
+        <h1 style="text-align: center; margin-bottom: 0.1em;">
+  		電子病歷資訊網站
+	</h1>
+	<h2 style="text-align: center; margin-top: 0.1em;">
+  		(資料來源: 衛福部健保雲端資料 醫院自有病歷資料 個人攜帶的病歷資料)
+	</h2>
     </main>
 
     <script>
@@ -135,9 +158,10 @@
         return response.json(); // 返回 JSON 格式的數據
     })
     .then(data => {
-        let html = '<h1 style="text-align: center;">電子病歷資訊網站</h1>';
+        let html = '<h1 style="text-align: center; margin-bottom: 0.1em;">電子病歷資訊網站</h1>';
+		html += '<h2 style="text-align: center; margin-top: 0.1em;">(資料來源: 衛福部健保雲端資料 醫院自有病歷資料 個人攜帶的病歷資料)</h2>';
         html += '<table border="1">';
-        html += '<tr><th>姓名</th><th>身分證字號</th><th>性別</th><th>生日</th></th><th>檢測數據</th><th>診斷報告</th><th>雲端藥歷<th>PPT下載</th></tr>';
+        html += '<tr><th>姓名</th><th>身分證字號</th><th>性別</th><th>生日</th></th><th>住院病程紀錄</th><th>門診就診紀錄</th><th>護理人員護理紀錄</th><th>用藥紀錄</th><th>各項檢查、檢驗紀錄</th><th>其他醫事人員記錄</th><th>影像病歷</th><th>同意書、切結書等表單</th><th>PPT下載</th></tr>';
         
         data.entry.forEach(entry => {
             // 排除 ID 为 147 的条目
@@ -159,9 +183,9 @@
                 }
 
                 // 设置按钮的宽度为100px
-                const buttonStyle = 'style="width: 100px;"';
+                const buttonStyle = 'style="width: 120px;"';
 				const tableStyle  = 'style="width: 180px;"';
-				const pptbutton   = 'style="background-color: #CC0000; width: 130px;"';
+				const pptbutton   = 'style="background-color: #CC0000; width: 120px;"';
 
 
                 html += `<tr>
@@ -169,9 +193,14 @@
 						<td>${identifierValue}</td>
 						<td>${gender}</td>
 						<td ${tableStyle}>${birthdate}</td>
-						<td><button ${buttonStyle} onclick="window.location.href = 'showObservations.html?id=${id}'">檢測數據</button></td>
-						<td><button ${buttonStyle} onclick="window.location.href = 'DiagnosticReport.html?id=${id}'">診斷報告</button></td>
-						<td><button ${buttonStyle} onclick="window.location.href = 'cloud.html?id=${id}'">雲端藥歷</button></td>
+						<td><button ${buttonStyle} onclick="window.location.href = 'Hospitalization records.html?id=${id}'">住院病程紀錄</button></td>
+						<td><button ${buttonStyle} onclick="window.location.href = 'Outpatient medical records.html?id=${id}'">門診就診紀錄</button></td>
+						<td><button ${buttonStyle} onclick="window.location.href = 'Nursing records.html?id=${id}'">護理人員護理紀錄</button></td>
+						<td><button ${buttonStyle} onclick="window.location.href = 'cloud.html?id=${id}'">用藥紀錄</button></td>
+						<td><button ${buttonStyle} onclick="window.location.href = 'showAllPatients_obs_value.html?id=${id}'">各項檢查、檢驗紀錄</button></td>
+						<td><button ${buttonStyle} onclick="window.location.href = 'Other medical staff records.html?id=${id}'">其他醫事人員記錄</button></td>
+						<td><button ${buttonStyle} onclick="window.location.href = 'Imaging medical records.html?id=${id}'">影像病歷</button></td>
+						<td><button ${buttonStyle} onclick="window.location.href = 'Consent forms.html?id=${id}'">同意書、切結書等表單</button></td>
 						<td><button ${pptbutton} onclick="downloadData('${name}', '${identifierValue}')">PPT下載</button></td>
 						<div id="loadingSpinner" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1000; text-align: center;">
 							<img src="Loading_icon.gif" alt="Loading..." width="100" height="100">
@@ -191,7 +220,7 @@
 
 
 		function showAllPatients() {
-			const url = 'https://02f9-140-116-156-231.ngrok-free.app/view'; // Flask 伺服器 URL
+			const url = `${API_BASE_URL}/view`; // Flask 伺服器 URL
 			uploadPatientInfo(url);
 		}
 
@@ -200,7 +229,7 @@
 		const data = new FormData();
 		data.append('userURL', `/Observation?patient=${patientId}`);
 
-		const url = 'https://02f9-140-116-156-231.ngrok-free.app/view'; // Flask 伺服器的端點 URL
+		const url = `${API_BASE_URL}/view`; // Flask 伺服器的端點 URL
 
 		fetch(url, {
 			method: 'POST',
@@ -267,7 +296,7 @@
 			const data = new FormData();
 			data.append('userURL', `/DiagnosticReport?patient=${patientId}`);
 
-			const url = 'https://02f9-140-116-156-231.ngrok-free.app/view'; // Flask 服务器的端点 URL
+			const url = '${API_BASE_URL}/view'; // Flask 服务器的端点 URL
 
 			fetch(url, {
 				method: 'POST',
@@ -337,7 +366,7 @@
     const data = new FormData();
     data.append('userURL', `/Condition?_text=%27主訴%27&patient=${patientId}`);
 
-    const url = 'https://02f9-140-116-156-231.ngrok-free.app/view'; // Flask 服务器的端点 URL
+    const url = '${API_BASE_URL}/view'; // Flask 服务器的端点 URL
 
     fetch(url, {
         method: 'POST',
@@ -396,7 +425,7 @@ function PastHistory(patientId) {
     const data = new FormData();
     data.append('userURL', `/Condition?_text=%27%E9%81%8E%E5%8E%BB%E7%97%85%E5%8F%B2%27&patient=${patientId}`);
 
-    const url = 'https://02f9-140-116-156-231.ngrok-free.app/view'; // Flask 服务器的端点 URL
+    const url = '${API_BASE_URL}/view'; // Flask 服务器的端点 URL
 
     fetch(url, {
         method: 'POST',
@@ -455,7 +484,7 @@ function Familyhistory(patientId) {
     const data = new FormData();
     data.append('userURL', `/FamilyMemberHistory?patient=${patientId}`);
 
-    const url = 'https://02f9-140-116-156-231.ngrok-free.app/view'; // Flask 服务器的端点 URL
+    const url = '${API_BASE_URL}/view'; // Flask 服务器的端点 URL
 
     fetch(url, {
         method: 'POST',
