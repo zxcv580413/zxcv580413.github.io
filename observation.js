@@ -39,24 +39,28 @@ function uploadFiles() {
     var userName = document.getElementById("name").value;
     var userID = document.getElementById("userID").value;
     var userEmail = document.getElementById("email").value;
-    
+    var pasthistory = '[' + Array.from(selectedPastConditions).map(item => `"${item}"`).join(',') + ']';
+    var familyhistory = '[' + Array.from(selectedConditions).map(item => `"${item}"`).join(',') + ']';
+    var family_history_heart = document.getElementById("family_history_heart").value;
+    var family_history_heart_input = document.getElementById("family_history_heart_input").value;
+    var smoking = document.getElementById("smoking").value;
+    var drinking = document.getElementById("drinking").value;
 
     const fileInput = document.getElementById('fileInput');
     const picturefileInput = document.getElementById('picturefileInput'); // 注意这里的 ID
 
-    const api_url = "https://02f9-140-116-156-231.ngrok-free.app/upload";
+    const api_url = `${API_BASE_URL}/upload`;
 
     const formData = new FormData();
     formData.append('userID', userID);
     formData.append('userName', userName);
     formData.append('userEmail', userEmail);
-    formData.append('pasthistory', "");
-    formData.append('familyhistory', "");
-    formData.append('family_history_heart', "");
-    formData.append('family_history_heart_input', "");
-    formData.append('smoking', "");
-    formData.append('drinking', "");
-    formData.append('drug_allergy', "");
+    formData.append('pasthistory', pasthistory);
+    formData.append('familyhistory', familyhistory);
+    formData.append('family_history_heart', family_history_heart);
+    formData.append('family_history_heart_input', family_history_heart_input);
+    formData.append('smoking', smoking);
+    formData.append('drinking', drinking);
 
     const files = fileInput.files;
     if (files.length > 0) {
@@ -106,7 +110,6 @@ function uploadFiles() {
         loadingSpinner.style.display = 'none';
     });
 }
-
 
 
 
