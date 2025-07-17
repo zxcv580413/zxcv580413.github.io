@@ -49,12 +49,6 @@ function uploadFiles() {
     formData.append('userID', userID);
     formData.append('userName', userName);
     formData.append('userEmail', userEmail);
-    formData.append('pasthistory', pasthistory);
-    formData.append('familyhistory', familyhistory);
-    formData.append('family_history_heart', family_history_heart);
-    formData.append('family_history_heart_input', family_history_heart_input);
-    formData.append('smoking', smoking);
-    formData.append('drinking', drinking);
 
     const files = fileInput.files;
     if (files.length > 0) {
